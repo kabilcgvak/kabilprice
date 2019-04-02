@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Magento2 Create Admin Grid With CURD Operations
 This is an example module for Create Admin Collection Grid , Edit/Add Grid Row And Installer In Magento2
 ## Manually Installation
@@ -26,3 +27,6 @@ now module is properly installed
 ## Code explanations 
 
 https://webkul.com/blog/create-grid-edit-add-grid-row-and-installer-in-magento2
+=======
+# kabilprice
+>>>>>>> 2e45a36d6b1b342fe70c3ade759a742694c783ad
