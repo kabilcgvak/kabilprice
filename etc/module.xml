@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/** Grid module xml
+ * @category  Halfprice
+ * @package   Halfprice_Designers
+ * @author    Halfprice
+ * @copyright Copyright (c) 2010-2017 Halfprice Software Private Limited Halfprice
+Halfprice
+ */
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Halfprice_Designers" setup_version="1.0.7">
+    </module>
+</config>

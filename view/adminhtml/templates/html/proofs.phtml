@@ -1,0 +1,173 @@
+<?php
+//GET REQUESTED ORDER ID	
+$orderId = $block->getRequest()->getparam('id');
+$allitems = $block->getOrderedItems($orderId);
+$s_no = 1;
+$order = $block->getorder($orderId);
+$orderData = $order->getData();
+//echo "<pre>";
+//print_r($order->getData());
+$address = $order->getAddress(8);
+// print_r($address);
+$email='N/A';$telephone='N/A';
+$email = $order->getCustomerEmail();
+$BillingAddress = $order->getBillingAddress()->getData();
+$ShippingAddress = $order->getShippingAddress()->getData();
+$telephone = $BillingAddress['telephone'];
+?>
+<div class="">
+    <div class="col-m-4">
+        Order # <?php echo $orderData['increment_id']; ?><br />
+        <strong>Order Status:</strong> <?php echo "waiting";?><br />
+        <strong>Shipping:</strong> <?php echo $orderData['shipping_description']; ?><br />
+        <strong>DeadLine:</strong> N/A<br />
+        <strong>Phone Number:</strong> <?php echo $telephone;?><br />
+        <strong>Email:</strong> <?php echo $email;?><br />
+    </div>
+
+    <div class="col-m-4">
+        <div class="admin__page-section-item order-billing-address">
+            <div class="admin__page-section-item-title">
+                <span class="title">Billing Address</span>           
+                <address class="admin__page-section-item-content"><?php echo $BillingAddress['firstname'];?> <?php echo $BillingAddress['lastname'];?><br>           
+                <?php echo $BillingAddress['street'];?><br>               
+                <?php echo $BillingAddress['city'];?>,  <?php echo $BillingAddress['region'];?>, <?php echo $BillingAddress['postcode'];?><br>
+                <?php echo $BillingAddress['country_id'];?><br>            
+                </address>
+            </div>
+        </div>
+    </div>
+    <div class="col-m-4">
+        <div class="admin__page-section-item order-billing-address">
+            <div class="admin__page-section-item-title">
+                <span class="title">Shipping Address</span>           
+                <address class="admin__page-section-item-content"><?php echo $ShippingAddress['firstname'];?> <?php echo $ShippingAddress['lastname'];?><br>           
+                <?php echo $ShippingAddress['street'];?><br>               
+                <?php echo $ShippingAddress['city'];?>,  <?php echo $ShippingAddress['region'];?>, <?php echo $ShippingAddress['postcode'];?><br>
+                <?php echo $ShippingAddress['country_id'];?><br>
+                <strong>Phone Number: </strong><?php echo $ShippingAddress['telephone'];?><br />
+                <strong>Address Saved</strong><br />
+                <strong>Verified</strong> Verified
+                </address>
+            </div>
+        </div>
+    </div>
+	
+	<div class="col-m-4">
+        <div class="admin__page-section-item comments">
+            <div class="admin__page-section-item-title">
+                <span class="title">Comments</span>           
+					<textarea name="comments"></textarea>
+            </div>
+        </div>
+	  	<form id="designernote" method="post">
+		  <div class="admin__page-section-item comments">
+            <div class="admin__page-section-item-title">
+                <span class="title">Designer Note:</span>           
+					<textarea id="designer_note" name="designer_note"></textarea>
+            </div>
+			<?php echo $block->getBlockHtml('formkey')?>
+			<div id="error_msg" class="success red"></div>
+			<div id="success_msg" class="success green"></div>
+			<input type="hidden" value="<?php echo $orderId;?>" name="orderid"/>
+			<input type="button" id="save_submit" value="Save Designer Note" class="designers"/>
+			</form>
+			</div>
+    </div>
+
+</div>
+<div id="element">
+<?php foreach($allitems as $item){ ?>
+<a href="<?php echo $block->getUrl('grid/lineitem/itemview', ['item_id' => $item->getitemId(), 'order_id' => $item->getOrderId()]) ?>">
+    <div class="item_row">
+        <div data-role="trigger" class="row_header">
+            <div class="col-m-1">
+                <div class="col-m-6 s_no s_no_color"><?php echo $s_no; ?></div>
+                <div class="col-m-6 order_qty order_qty_color"><?php echo number_format($item->getQtyOrdered(),0); ?></div>
+            </div>
+
+            <div class="col-m-5">
+                <div class="item_name">
+                    <?php echo $item->getName(); ?>
+                </div>
+            </div>
+
+            <div class="col-m-3">
+                <div class="order_type">
+                    design online
+                </div>
+            </div>
+
+            <div class="col-m-3">
+                <div class="designer_status">
+                    Artwork recevied
+                </div>
+            </div>
+        </div>        
+    </div>
+	<input type="button" class="designers" value="Send Proof Notification"/>
+    <!--div data-role="content" class="row_content">Content 1</div-->
+</a>    
+<?php } ?>
+</div>
+<script>
+    require([
+        'jquery',
+        'accordion'], function ($) {
+        $("#element").accordion({ 
+            animate: {duration:1000,easing:"easeOutCubic"},
+            active: '',
+            
+        });
+		$("#error_msg").css('display','none');
+		$("#success_msg").css('display','none');
+		 $("#save_submit").click(function(e)
+		 {
+			e.preventDefault();
+			var designer_note = $("#designer_note").val();
+			 if(designer_note=='')
+			 {
+				$("#error_msg").css('display','block');
+				$("#error_msg").html('Please enter your note');
+			 }
+			 else{
+					var $form = $('#designernote');
+                    var data = $('#designernote').serialize();
+                    //if(!$form.valid()) return false;
+                        $.ajax({
+                            url:'<?php echo $block->getUrl('grid/grid/designernote') ?>',
+                            type:'POST',
+                            showLoader: true,
+                            dataType:'json',
+                            data: data,
+                            complete: function(response){
+								//read output response.responseJSON.status;
+								var status= response.responseJSON.status;
+								if(status=='ok'){
+									$("#error_msg").html('');
+									$("#error_msg").css('display','none');
+									$("#success_msg").css('display','block');
+								$("#success_msg").html('Successfully updated.');
+								 setTimeout(function() {
+										$("#success_msg").hide('blind', {}, 500)
+									}, 2000);
+									$("#designer_note").val('');								
+								}
+								else
+								{$("#success_msg").html('');
+								$("#success_msg").css('display','none');
+                                $("#error_msg").css('display','block');
+								$("#error_msg").html(status);}
+                            },
+                            error: function (xhr, status, errorThrown) {
+								$("#success_msg").html('');
+								$("#success_msg").css('display','none');
+                                $("#error_msg").css('display','block');
+								$("#error_msg").html('Error happens. Try again.');
+                                console.log('Error happens. Try again.');
+                            }
+                        });
+				}
+                });
+    });
+</script>

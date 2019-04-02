@@ -1,0 +1,153 @@
+<?php 
+$item_ID = $block->getRequest()->getParam('item_id');
+$order_ID = $block->getRequest()->getParam('order_id');
+
+$item_data = $block->getOrderItem($item_ID);
+
+//echo $item_data->getOrderId();
+//echo "<pre>";print_r($item_data->debug());
+
+$orderedQty = $item_data->getQtyOrdered();
+$order_qty_color = 'green';
+?>
+
+<div data-role="collapsible" class="item_row">
+    <div data-role="trigger" class="row_header">
+        <div class="col-m-1">
+            <div class="col-m-6 s_no s_no_color"><?php echo "1"; ?></div>
+            <div class="col-m-6 order_qty" style="background: <?php echo $order_qty_color; ?>"><?php echo number_format($orderedQty,0); ?></div>
+        </div>
+
+        <div class="col-m-5">
+            <div class="item_name">
+                <?php echo $item_data->getName(); ?>
+            </div>
+        </div>
+
+        <div class="col-m-3">
+            <div class="order_type">
+                design online
+            </div>
+        </div>
+
+        <div class="col-m-3">
+            <div class="designer_status">
+                Artwork recevied
+            </div>
+        </div>
+    </div>        
+</div>
+
+<div class="row_content">
+	<form action="#" method="POST">
+		<div class="col-m-6">
+			<div class="panel panel-default">
+			  <div class="panel-heading">Proof preview</div>
+			  <div class="panel-body">
+			    	<img id="proof1_preview" src="#" alt="your image" />
+			    	<img id="proof2_preview" src="#" alt="your image" />
+			  </div>
+			</div>
+		</div>
+
+		<div class="col-m-6">
+
+			<div class="panel panel-default">
+			  <div class="panel-heading">Proof Status</div>
+			  <div class="panel-body">
+			    	<div class="upload_proof">
+						<input type='file' id="proof1" name="proof1" /><br />
+						<input type='file' id="proof2" name="proof2" />
+		  			</div>
+		  			<div class="pd_status">
+		  				<label>Choose Status</label><br />
+						<select name="status" id="status" class="select select admin__control-select">
+							<option value="">Select status</option>
+							<option value="2">designer1</option>
+							<option value="4">designer2</option>
+						</select>
+		  			</div>
+
+		  			<div class="proof_comments">
+		  				<textarea name="proof_comments" id="proof_comments" class="input-text"></textarea>
+
+		  			</div>
+			  </div>
+			</div>
+		</div>
+	</form>	
+</div>
+
+<!-- CDN LIB included in default layout file -->
+  <script>
+  tinymce.init({
+    selector: '#proof_comments'
+  });
+  </script>
+
+<script type="text/javascript">
+	require(['jquery', 'jquery/ui'], function($){
+	  $(document).ready( function() {
+	    
+	    $("#proof1_preview").hide();
+	    $("#proof2_preview").hide();
+
+	    function readURL(input, proof_place) {
+
+			if (input.files && input.files[0]) {
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+			  $('#'+proof_place).attr('src', e.target.result);
+			  $("#"+proof_place).show();
+			}
+
+			reader.readAsDataURL(input.files[0]);
+			}
+		}
+
+		$("#proof1").change(function() {
+			readURL(this,'proof1_preview');
+		});
+
+		$("#proof2").change(function() {
+			readURL(this,'proof2_preview');
+		});
+
+
+	  });
+	});
+
+
+	
+
+</script>
+<style type="text/css">
+	
+	.panel-default>.panel-heading {
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+.panel-heading {
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.panel-body {
+    padding: 15px;
+}
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+    box-shadow: 0 1px 1px rgba(0,0,0,.05);
+}
+.panel-default {
+    border-color: #ddd;
+        margin: 10px;
+}
+</style>

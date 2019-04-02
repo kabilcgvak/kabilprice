@@ -1,0 +1,144 @@
+<?php
+$role =  $this->getRole();
+if($role=='Designers')
+{
+	?>
+	
+	<?php
+	echo "";
+}
+else if($role=='Lead Designers' || $role=='Administrators')
+{
+$users = $this->getDesignersList();
+if(count($users)>0)
+{
+?>
+<div class="">
+<a href="#" class="designers" id="click-me">Manage Designers</a> <a href="#" class="designers " id="reassign_popup">Reassign<a/>
+<div id="popup-modal" style="display:none;">
+<div></div>
+		<form name="designersform" id="designersform" action="<?php echo $block->getUrl('grid/grid/designers') ?>" method="post">
+		<?php echo $block->getBlockHtml('formkey')?>
+		<table class="admin__table-primary dashboard-data" id="lastOrdersGrid_table">
+		<tbody>
+		<?php
+		for($i=0;$i<count($users);$i++)
+		{
+			$status = $users[$i]['designer_status'];
+			?>
+			<tr title="" class="even_clickable"><td class="col-items col-number">
+				<td class="col-customer">
+					<input name="designers_ids[]" value="<?php echo $users[$i]['id'];?>" type="hidden"/>
+					<input name="designers_status[]" value="<?php echo $users[$i]['id'];?>" type="checkbox" <?php if($status == '1')echo "checked";?>/>
+					<?php echo $users[$i]['username'];?>
+				</td>
+			</tr>
+			 <?php
+		}?>
+		</tbody>
+		</table>
+		<div id="success_msg" class="success green" style="display:none;"></div>
+		<div id="error_msg" class="success red" style="display:none;"></div>
+		<!--input type="submit" name="update" value="Update" id=""/-->
+		<input type="button" name="update" value="Update Status" class="assign-button center-align" id="designers_submit"/>
+		</form>
+</div>
+
+<?php
+}//end users count check
+else
+{
+	 echo "There is no designers available";
+}
+	
+}
+else if($role=='Designers')
+	echo "";
+else
+	echo "";
+
+if($role=='Lead Designers' || $role=='Administrators')
+{
+?>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function($,modal)
+		{
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Designers Status',
+                buttons: [{
+                    text: $.mage.__('Continue'),
+                    class: 'disable-button',
+                    click: function ()
+					{
+                        this.closeModal();
+                    }
+                }] 
+            };
+			var options_success = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Designers Availability',
+                buttons: [{
+                    text: $.mage.__('Continue'),
+                    class: 'disable-button',
+                    click: function ()
+					{
+                        this.closeModal();
+                    }
+                }] 
+            };
+            $("#designers_submit").click(function(e) {
+                    e.preventDefault();
+					$("#success_msg").css('display','none');
+					$("#error_msg").css('display','none');
+					$("#success_msg").html('');
+					$("#error_msg").html('');
+                    var $form = $('#designersform');
+                    var data = $('#designersform').serialize();
+                    //if(!$form.valid()) return false;
+                        $.ajax({
+                            url:'<?php echo $block->getUrl('grid/grid/designers') ?>',
+                            type:'POST',
+                            showLoader: true,
+                            dataType:'json',
+                            data: data,
+                            complete: function(response){
+								//read output response.responseJSON.status;
+                                $("#lastOrdersGrid_table").html(response.responseJSON.htmlData);
+								//$("#popup-modal").modal('closeModal');
+                                $("#error_msg").html('');
+                                $("#error_msg").css('display','none');
+                                $("#success_msg").css('display','block');
+                                $("#success_msg").html('Successfully updated.');
+                            },
+                            error: function (xhr, status, errorThrown) {
+								$("#success_msg").html('');
+								$("#success_msg").css('display','none');
+                                $("#error_msg").css('display','block');
+								$("#error_msg").html('Error happens. Try again.');
+                                console.log('Error happens. Try again.');
+                            }
+                        });
+                });
+			var popup = modal(options, $('#popup-modal'));
+			$("#click-me").on('click',function(){ 
+				$("#success_msg").html('');
+				$("#error_msg").html('');
+				$("#popup-modal").modal("openModal");
+			});
+        }
+    );
+</script>
+<?php
+}
+?>
+

@@ -1,0 +1,74 @@
+.grid-grid-index a.action-menu-item , .back_button,.designers, .assign-button{
+    display: block;
+    width: auto;
+    height: 35px;
+    background: #127ba5;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+ /* .back_button{width: 89px;} */
+ .designers{float:left;margin-left:10px;height:40px;}
+ .assign-button{height:auto;}
+ .center-align{margin:auto;}
+ .back_button:hover, .designers:hover{text-decoration:none;color: white;}
+ .grid-grid-index .page-title {float:left;}
+ .grid-grid-index .modal-popup._inner-scroll .modal-inner-wrap {width:35%;}
+ .green{color:#006c00;}
+ .red{color:#ff0000;}
+ .success{padding:10px;}
+ .status {float: left;width: 16px;height: 16px;margin: 1px;border: 1px solid rgba(0, 0, 0, .2);}
+.designer_selection{width:100%;float:left;margin-top:10px;}
+.designer_selection .title{width:30%;float:left;}
+.designer_selection .des_list{width:70%;float:left;}
+.modal-slide .modal-title{border-bottom: 1px solid #e3e3e3;padding-bottom: 8px;}
+.awaiting_art_upload, .awaiting_designer_review {background: #ff0000;}
+.processing {background: #ffa500;}
+.customer_request_received {background: #ffa500;}
+.proof_update_available{background: #00ff00;}
+.shipped {background: #ae163e;}
+.bottom-link{width:15%;}
+.bottom-link .link{float:none;margin-left:0px;}
+.#reassign_popup{float:none;}
+
+/* Red = Awaiting Art Upload or Awaiting Designer Review
+
+Yellow = Customer Request Received
+
+Green = Proof Update Available
+
+Green Checkmark = Approved for Production
+ */
+.disable-button{display:none;}
+/*kabil css start*/
+.s_no,.order_qty {
+width: 25px !important;
+height: 35px;
+border: 1px solid #CCC;
+text-align: center;
+display: flex;
+flex-direction: column;
+align-content: center;
+/ float: none; /
+margin-right: 5px;
+justify-content: center;
+}
+.row_header {
+width: 100%;
+float: left;
+background: #eae9e9;
+padding: 5px 10px;
+}
+.row_content {
+border: 1px solid #f2f2f2;
+min-height: 150px;
+}
+.item_row {
+margin: 5px 0;
+width: 100%;
+float: left;
+}
+/*Kabil end*/

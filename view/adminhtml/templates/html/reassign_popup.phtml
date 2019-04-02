@@ -1,0 +1,163 @@
+<?php
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$authSession = $objectManager->create('\Magento\Backend\Model\Auth\Session');
+$designerList = $objectManager->create('\Halfprice\Designers\Block\Adminhtml\Leaddesigners');
+$role =  $authSession->getUser()->getRole();
+$rolearr = $role->getData();
+$role = $rolearr['role_name'];
+if($role=='Lead Designers' || $role=='Administrators')
+{
+ $users = $designerList->getDesignersList();
+?>
+<div style="width:50%">
+<div id="reassign-popup-modal" style="display:none;">
+<div></div>
+		<form name="assignform" id="assignform" action="<?php echo $block->getUrl('grid/grid/assign') ?>" method="post">
+		<?php echo $block->getBlockHtml('formkey')?>
+		<table class="admin__table-primary dashboard-data" id="lastOrdersGrid_table">
+		<tbody>		
+        <tr>
+		<td>
+			<!--div id="selected_orders" class="selected_orders"></div-->
+			<div id="selected_orders_table">Please wait listing data..</div>
+			</td>
+		</tr>
+		<tr>
+            <td id="designers_list_dropdown"><h3>Designers</h3>
+				<?php echo $block->getBlockHtml('formkey')?>
+                <select name="designer_id" id="designers_list" class="select select admin__control-select">
+                    <option value="">Select designer</option>
+                    <?php 
+                        foreach($users as $designer){
+                            if($designer['designer_status'] == 1){
+                            ?>
+                            <option value="<?php echo $designer['id'];?>"><?php echo $designer['username'];?></option>
+                    <?php    }
+                        }
+                    ?>
+                </select>
+            </td>
+        </tr>
+        </tbody>
+		</table>
+		<input type="hidden" value="" name="selected_orders_list" id="selected_orders_list"/>
+		<input type="submit" class="assign-button center-align" value="Reassign"/>
+		<div id="success_msg" class="success green"></div>
+		<div id="error_msg" class="success red"></div>
+		<!--input type="submit" name="update" value="Update" id=""/-->
+		<!-- <input type="button" name="update" value="Update" class="designers" id="designers_submit"/> -->
+		</form>
+</div>
+<?php
+}
+else if($role=='Designers')
+	echo "";
+else
+	echo "";
+
+ if($role=='Lead Designers' || $role=='Administrators')
+{
+?>
+<script>
+    require(
+        [
+            'jquery',
+            'Magento_Ui/js/modal/modal'
+        ],
+        function($,modal)
+		{
+			$("#assignform").submit(function(event)
+			{
+			  var selected_value = $("#designers_list").val();
+			  if(selected_value!='')
+			  {$('.loading-mask').css('display','block');return true;}
+			   else {alert('Please select designer');event.preventDefault();}
+			});
+            var options = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Reassign Designers',
+                buttons: [{
+                    text: $.mage.__('Update'),
+                    class: 'disable-button',
+                    click: function ()
+					{
+                        /**
+                         * calling ajax function.
+                         */
+                        return confirm("Are you sure want to reassign designer");
+                    }
+                },{
+                    text: $.mage.__('Cancel'),
+                    class: 'disable-button',
+                    click: function ()
+					{
+                        this.closeModal();
+                    }
+                }] 
+            };
+			var options_success = {
+                type: 'popup',
+                responsive: true,
+                innerScroll: true,
+                title: 'Reassign Designer',
+                buttons: [{
+                    text: $.mage.__('Continue'),
+                    class: 'disable-button',
+                    click: function ()
+					{
+                        this.closeModal();
+                    }
+                }] 
+            };
+			var popup = modal(options, $('#reassign-popup-modal'));
+			$("#reassign_popup").click(function(e) {
+                    e.preventDefault();               
+                var checkedVals = $('.admin__control-checkbox:checkbox:checked').map(function() {
+                    /* getting only checkbox under grid not from out of grid */                    
+                    if($(this).data('action') == 'select-row'){
+                        return this.value;
+                    }
+                }).get();
+                var selected_checkbox_cnt = checkedVals.length;
+                /**
+                 * Checking validation
+                 */
+                if(selected_checkbox_cnt == 0){
+                    alert("Please select order");
+                    return false;
+                }
+				else{
+					var selected_orders = checkedVals.join(",");                
+					$("#selected_orders_list").val(selected_orders);
+					$.ajax({
+                            url:'<?php echo $block->getUrl('grid/grid/getdetailedorders') ?>',
+                            type:'POST',
+                            showLoader: true,
+                            dataType:'json',
+                            data: {orders: selected_orders},
+                            complete: function(response){
+								//read output response.responseJSON.status;
+                                $("#designers_list_dropdown").html(response.responseJSON.htmlDesignerSelect);
+								$("#selected_orders_table").html(response.responseJSON.htmlData);
+                              /*   $("#error_msg").html('');
+                                $("#success_msg").html('Successfully updated.'); */
+                            },
+                            error: function (xhr, status, errorThrown) {
+								/* $("#success_msg").html('');
+								$("#error_msg").html('Error happens. Try again.'); */
+                                console.log('Error happens. Try again.');
+                            }
+                        });
+					$("#reassign-popup-modal").modal("openModal");
+				}
+			});
+        }
+    );
+
+   
+</script>
+<?php
+}
+?>

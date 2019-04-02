@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/** Grid menu xml
+ * @category  Halfprice
+ * @package   Halfprice_Designers
+ * @author    Halfprice
+ * @copyright Copyright (c) 2010-2017 Halfprice Software Private Limited Halfprice
+Halfprice
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Halfprice_Designers::grid_list" title="Dashboard" module="Halfprice_Designers" sortOrder="10" resource="Halfprice_Designers::grid_list" action="grid/grid"/>
+        <!--add id="Halfprice_Designers::add_row" title="Designers Dashboard" module="Halfprice_Designers" sortOrder="20" parent="Halfprice_Designers::manager" action="grid/grid" resource="Halfprice_Designers::add_row"/-->
+    </menu>
+</config>

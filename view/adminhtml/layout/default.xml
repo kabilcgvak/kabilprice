@@ -1,0 +1,7 @@
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+   <head>
+     <css src="Halfprice_Designers::css/hpb_design.css"/>
+     <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=g31t5w4p8gs6528j9bb24qnuiiib8xq5qssg0dhsal7tn40l" src_type="url"/>
+   </head>
+  
+</page>

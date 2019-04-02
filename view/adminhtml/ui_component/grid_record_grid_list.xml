@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Grid record list UI Component
+ * @category  Halfprice
+ * @package   Halfprice_Designers
+ * @author    Halfprice
+ * @copyright Copyright (c) 2010-2017 Halfprice Software Private Limited Halfprice
+Halfprice
+ */
+ Designers List XML
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">grid_record_grid_list.grid_record_grid_list_data_source</item>
+            <item name="deps" xsi:type="string">grid_record_grid_list.grid_record_grid_list_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">grid_records_columns</item>
+       
+    </argument>
+    <dataSource name="grid_record_grid_list_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">grid_record_grid_list_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">entity_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <container name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+                <item name="stickyTmpl" xsi:type="string">ui/grid/sticky/toolbar</item>
+            </item>
+        </argument>
+      <!--   <bookmark name="bookmarks"/> -->
+      <!--   <columnsControls name="columns_controls"/> -->
+		  <columnsControls name="columns_controls">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="displayArea" xsi:type="boolean">false</item>
+                </item>
+            </argument>
+        </columnsControls>
+		 <columnsControls name="bookmarks">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="displayArea" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </columnsControls>
+		<filterSearch name="fulltext"/>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="columnsProvider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.grid_records_columns</item>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.filters</item>
+                    </item>
+                    <item name="templates" xsi:type="array">
+                        <item name="filters" xsi:type="array">
+                            <item name="select" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                            </item>
+                        </item>
+                    </item>
+                    <item name="childDefaults" xsi:type="array">
+                        <item name="provider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.listing_top.listing_filters</item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">grid_record_grid_list.grid_record_grid_list.grid_records_columns.${ $.index }:visible</item>
+                        </item>
+                    </item>
+                </item>
+                <item name="observers" xsi:type="array">
+                    <item name="column" xsi:type="string">column</item>
+                </item>
+            </argument>
+        </filters>
+       <!--  <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.grid_records_columns.ids</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                </item>
+            </argument>  -->
+            <!-- Mass actions which you want to add in your grid-->
+          <!--   <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="grid/grid/massdelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete</item>
+                            <item name="message" xsi:type="string" translate="true">Do you want to delete selected row record?</item>
+                        </item>
+                    </item>
+                </argument>
+           </action> -->
+		   <!-- <action name="assign"> -->
+                <!-- <argument name="data" xsi:type="array"> -->
+                    <!-- <item name="config" xsi:type="array"> -->
+                        <!-- <item name="type" xsi:type="string">assign</item> -->
+                        <!-- <item name="label" xsi:type="string" translate="true">Assign</item> -->
+                        <!-- <item name="url" xsi:type="url" path="grid/grid/assigndesigners"/> -->
+						<!-- <item name="selectProvider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.grid_records_columns.ids</item> -->
+                        <!-- item name="confirm" xsi:type="array"> -->
+                            <!-- <item name="title" xsi:type="string" translate="true">Delete</item> -->
+                            <!-- <item name="message" xsi:type="string" translate="true">Do you want to delete selected row record?</item> -->
+                        <!-- </item -->
+                    <!-- </item> -->
+                <!-- </argument> -->
+           <!-- </action> -->
+       <!--  </massaction>  -->
+        <paging name="listing_paging">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="provider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.listing_top.bookmarks</item>
+                        <item name="namespace" xsi:type="string">current.paging</item>
+                    </item>
+                    <item name="selectProvider" xsi:type="string">grid_record_grid_list.grid_record_grid_list.grid_records_columns.ids</item>
+                </item>
+            </argument>
+        </paging>
+    </container>
+<!-- 	<htmlContent name="html_content">
+        <argument name="block" xsi:type="object">Halfprice\Designers\Block\Adminhtml\Reassigndesigners</argument>
+    </htmlContent> -->
+    <columns name="grid_records_columns">
+     <!--  <selectionsColumn name="ids">
+            <settings>
+                <indexField>entity_id</indexField>
+            </settings>
+        </selectionsColumn> -->
+		<column name="colorstatus" class="Halfprice\Designers\Ui\Component\Listing\Grid\Column\Colorstatus">
+            <settings>
+                <!-- <filter>text</filter> -->
+				<sorting>false</sorting>
+				<bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <label translate="true"></label>
+            </settings>
+        </column>
+        <column name="increment_id" sortOrder="6">
+            <settings>
+                <!-- <filter>text</filter> -->
+                <label translate="true">Order id</label>
+            </settings>
+        </column>
+        <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <!-- <filter>dateRange</filter> -->
+                <dataType>date</dataType>
+                <label translate="true">Purchase Date</label>
+                <sorting>desc</sorting>
+            </settings>
+        </column>
+		<column name="assigned_on" class="Magento\Ui\Component\Listing\Columns\Date" component="Magento_Ui/js/grid/columns/date">
+            <settings>
+                <!-- <filter>dateRange</filter> -->
+                <dataType>date</dataType>
+                <label translate="true">Assigned On</label>
+            </settings>
+        </column>
+		<column name="billing_name">
+            <settings>
+                <!-- <filter>text</filter> -->
+                <label translate="true">Billing Name</label>
+            </settings>
+        </column>
+		<column name="status" component="Magento_Ui/js/grid/columns/select">
+            <settings>
+                <filter>select</filter>
+                <options class="Magento\Sales\Ui\Component\Listing\Column\Status\Options"/>
+                <dataType>select</dataType>
+                <label translate="true">Order status</label>
+            </settings>
+        </column>
+		<column name="shipping_information">
+            <settings>
+             <!--    <filter>text</filter> -->
+                <label translate="true">Shipping Service</label>
+            </settings>
+        </column>
+		<actionsColumn name="proofs" class="Halfprice\Designers\Ui\Component\Listing\Grid\Column\Manageproofs">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Manage Proofs</item>
+
+                </item>
+            </argument>
+        </actionsColumn>
+		<column name="base_grand_total" class="Magento\Sales\Ui\Component\Listing\Column\Price">
+            <settings>
+             <!--    <filter>textRange</filter> -->
+                <label translate="true">Order Total</label>
+            </settings>
+        </column>
+		<column name="items" class="Halfprice\Designers\Ui\Component\Listing\Grid\Column\Itemscount">
+          <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+					<item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
+					<item name="filter" xsi:type="boolean">false</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="label" xsi:type="string" translate="true">Items</item>
+                </item>
+            </argument>
+        </column>
+		<!---column name="designer_name">
+            <settings>
+				<filter>select</filter>
+                <label translate="true">Designer</label>
+            </settings>
+        </column-->
+		<column name="designer_name" class="Halfprice\Designers\Ui\Component\Listing\Grid\Column\Designers">
+            <settings>
+                <!-- <filter>select</filter> -->
+                <options class="Halfprice\Designers\Ui\Component\Listing\Grid\Column\Designers\Options"/>
+                <dataType>select</dataType>
+                <label translate="true">Designer</label>
+            </settings>
+        </column>
+       <!-- Add Action with each row of grid and for this we will create a class Action -->
+     <!--   <actionsColumn name="actions" class="Halfprice\Designers\Ui\Component\Listing\Grid\Column\Action">
+           <argument name="data" xsi:type="array">
+               <item name="config" xsi:type="array">
+                   <item name="resizeEnabled" xsi:type="boolean">false</item>
+                   <item name="resizeDefaultWidth" xsi:type="string">107</item>
+                   <item name="indexField" xsi:type="string">id</item>
+               </item>
+           </argument>
+       </actionsColumn> -->
+    </columns>
+</listing>

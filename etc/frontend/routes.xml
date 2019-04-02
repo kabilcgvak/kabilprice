@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Halfprice Grid routes xml
+ * @category  Halfprice
+ * @package   Halfprice_Designers
+ * @author    Halfprice
+ * @copyright Copyright (c) 2010-2017 Halfprice Software Private Limited Halfprice
+Halfprice
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="grid" frontName="grid">
+            <module name="Halfprice_Designers" />
+        </route>
+    </router>
+</config>

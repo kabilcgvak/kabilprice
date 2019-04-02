@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+/** Grid di xml
+ * @category  Halfprice
+ * @package   Halfprice_Designers
+ * @author    Halfprice
+ * @copyright Copyright (c) 2010-2017 Halfprice Software Private Limited Halfprice
+Halfprice
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Halfprice\Designers\Api\Data\GridInterface" type="Halfprice\Designers\Model\Grid" />
+
+    <type name="Halfprice\Designers\Model\ResourceModel\Grid\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">sales_order_grid</argument>
+            <argument name="eventPrefix" xsi:type="string">halfprice_designers_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">halfprice_designers_collection</argument>
+            <argument name="resourceModel" xsi:type="string">Halfprice\Designers\Model\ResourceModel\Grid</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="grid_record_grid_list_data_source" xsi:type="string">Halfprice\Designers\Model\ResourceModel\Grid\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Halfprice\Designers\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Halfprice\Designers\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">customLogHandler</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Halfprice\Designers\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+	<virtualType name="Magento\Sales\Model\ResourceModel\Order\Grid">
+    <arguments>
+        <argument name="columns" xsi:type="array">
+            <item name="designer_id" xsi:type="string">sales_order.designer_id</item>
+            <item name="designer_name" xsi:type="string">sales_order.designer_name</item>
+            <item name="leaddesigner_id" xsi:type="string">sales_order.leaddesigner_id</item>
+            <item name="leaddesigner_name" xsi:type="string">sales_order.leaddesigner_name</item>
+            <item name="assigned_on" xsi:type="string">sales_order.assigned_on</item>
+        </argument>
+    </arguments>
+</virtualType>
+</config>
